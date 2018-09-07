@@ -3,6 +3,7 @@ from mappyfile.parser import Parser
 import webcolors
 from lark.lexer import Token
 
+__version__ = "0.1.0"
 
 class ConversionType:
     NO_CONVERSION = 0
