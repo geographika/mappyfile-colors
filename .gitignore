@@ -1,0 +1,5 @@
+/.pytest_cache
+/.vs/config/applicationhost.config
+/.vs/mappyfile-expressions/v15/.suo
+/.pypirc
+/notes.private.txt

@@ -1,0 +1,41 @@
+MAP
+    SIZE 400 400
+    EXTENT 0 0 100 100
+    LAYER
+        NAME "Curve"
+        STATUS ON
+        TYPE LINE
+        FEATURE
+            WKT "CIRCULARSTRING(1 5, 6 2, 7 3)"
+        END
+        CLASS
+            STYLE
+                COLOR 204 204 255
+                OUTLINECOLOR 0 0 255
+                WIDTH 3
+            END
+        END
+    END
+    LAYER
+        STATUS ON
+        NAME "grid"
+        TYPE LINE
+        CLASS
+            NAME "Graticule"
+            STYLE
+                COLOR 0 0 0
+                WIDTH 1
+            END
+            LABEL
+                COLOR 50 50 50
+                TYPE TRUETYPE
+                SIZE 8
+                POSITION AUTO
+                PARTIALS FALSE
+            END
+        END
+        GRID
+            MININTERVAL 5
+        END
+    END
+END
