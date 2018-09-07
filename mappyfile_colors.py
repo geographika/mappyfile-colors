@@ -5,6 +5,7 @@ from lark.lexer import Token
 
 __version__ = "0.1.0"
 
+
 class ConversionType:
     NO_CONVERSION = 0
     TO_RGB = 1
