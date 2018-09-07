@@ -32,6 +32,6 @@ setup(name='mappyfile-colors',
       author_email='sethg@geographika.co.uk',
       license='MIT',
       py_modules=['mappyfile_colors'],
-      install_requires=['mappyfile>=0.7.3', 'webcolors'],
+      install_requires=['mappyfile>=0.7.4', 'webcolors'],
       entry_points={'mappyfile.plugins': 'mappyfile_colors = mappyfile_colors'},
       zip_safe=False)
