@@ -1,5 +1,6 @@
-from mappyfile.transformer import MapfileTransformer, MapfileToDict
+from mappyfile.transformer import MapfileTransformer, CommentsTransformer, MapfileToDict
 from mappyfile.parser import Parser
+from lark.visitors import v_args
 import webcolors
 from lark.lexer import Token
 
@@ -12,10 +13,28 @@ class ConversionType:
     TO_HEX = 2
 
 
+class ColorToken(Token):
+      __slots__ = 'comment'
+
+
 def token_to_rgb(t):
     r, g, b = t
     return (r.value, g.value, b.value)
 
+
+orig_function = CommentsTransformer._save_attr_comments
+
+
+@v_args(tree=True)
+def attr_comments_override(self, tree):
+    d = orig_function(self, tree)
+    if "__tokens__" in d:
+        for t in d["__tokens__"]:
+            if isinstance(t, ColorToken):
+                d["__comments__"] += ["# {}".format(t.comment)]
+    return d
+
+CommentsTransformer.attr = attr_comments_override
 
 class ColoursTransformer(MapfileTransformer):
 
@@ -31,8 +50,10 @@ class ColoursTransformer(MapfileTransformer):
             return super(ColoursTransformer, self).rgb(t)
         else:
             hex = webcolors.rgb_to_hex(token_to_rgb(t))
-            # print(webcolors.rgb_to_name(t)) # TODO - add this as a comment to the tree
-            return Token("HEXCOLOR", hex)
+            named_colour = webcolors.hex_to_name(hex)
+            converted_token = ColorToken("HEXCOLOR", hex)
+            converted_token.comment = named_colour
+            return converted_token
 
     def colorrange(self, t):
 
@@ -43,7 +64,11 @@ class ColoursTransformer(MapfileTransformer):
             t2 = t[3:]
             hex1 = webcolors.rgb_to_hex(token_to_rgb(t1))
             hex2 = webcolors.rgb_to_hex(token_to_rgb(t2))
-            return [Token("HEXCOLOR", hex1), Token("HEXCOLOR", hex2)]
+            hex_token1 = ColorToken("HEXCOLOR", hex1)
+            hex_token1.comment = webcolors.hex_to_name(hex1)
+            hex_token2 = ColorToken("HEXCOLOR", hex2)
+            hex_token2.comment = webcolors.hex_to_name(hex2)
+            return [hex_token1, hex_token2]
 
     def hexcolorrange(self, t):
 
@@ -56,6 +81,7 @@ class ColoursTransformer(MapfileTransformer):
             return super(ColoursTransformer, self).hexcolorrange(t)
 
     def hexcolor(self, t):
+
         if self.conversion_type == ConversionType.TO_RGB:
             r, g, b = webcolors.hex_to_rgb(self.clean_string(t[0]))
             return Token("RGB", [r, g, b])
@@ -66,7 +92,9 @@ class ColoursTransformer(MapfileTransformer):
 def colours_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_comments=False):
     p = Parser(include_comments=include_comments)
     ast = p.parse(s)
+
     m = MapfileToDict(include_comments=include_comments,
-                      transformerClass=ColoursTransformer, conversion_type=conversion_type)
+                      transformerClass=ColoursTransformer,
+                      conversion_type=conversion_type)
     d = m.transform(ast)
     return d
