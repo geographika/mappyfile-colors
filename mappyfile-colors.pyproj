@@ -5,14 +5,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>863c8145-399f-4736-9b74-f9cb894288b3</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>tests\test_expressions.py</StartupFile>
+    <StartupFile>tests\test_colors.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>mappyfile-expressions</Name>
     <RootNamespace>mappyfile-expressions</RootNamespace>
-    <InterpreterId>MSBuild|{89e93421-467e-4824-bd7b-9c59167a2953}|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|mappyfile-colors|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,17 +23,21 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="mappyfile_expressions.py" />
+    <Compile Include="image_output.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="mappyfile_colors.py" />
     <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tests\test_expressions.py">
+    <Compile Include="tests\test_colors.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".pypirc" />
     <Content Include=".travis.yml" />
+    <Content Include="example.map" />
     <Content Include="LICENSE" />
     <Content Include="MANIFEST.in" />
     <Content Include="notes.private.txt" />
@@ -45,15 +49,14 @@
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="..\..\VirtualEnvs\mappyfile-geojson\">
-      <Id>{89e93421-467e-4824-bd7b-9c59167a2953}</Id>
+    <Interpreter Include="C:\VirtualEnvs\mappyfile-colors\">
+      <Id>mappyfile-colors</Id>
       <Version>2.7</Version>
-      <Description>mappyfile-geojson (Python 64-bit 2.7)</Description>
+      <Description>mappyfile-colors (Python 2.7 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <LibraryPath>Lib\</LibraryPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
-      <Architecture>Amd64</Architecture>
+      <Architecture>X64</Architecture>
     </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
