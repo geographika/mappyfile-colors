@@ -57,9 +57,9 @@ def test_add_comments():
     s = pp.pprint(d)
     print(s)
     exp = """STYLE
-COLOR '#ff0000' # red
-OUTLINECOLOR '#00ff00'
-COLORRANGE '#000000' '#ffffff'
+COLOR '#ff0000' # red # red
+OUTLINECOLOR '#00ff00' # lime
+COLORRANGE '#000000' '#ffffff' # black # white
 END"""
 
     assert s == exp
@@ -70,8 +70,8 @@ def run_tests():
 
 
 if __name__ == '__main__':
-    test_to_rgb()
-    test_to_hex()
-    test_add_comments()
-    # run_tests()
+    # test_to_rgb()
+    # test_to_hex()
+    # test_add_comments()
+    run_tests()
     print("Done!")
