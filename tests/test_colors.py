@@ -40,12 +40,10 @@ def test_to_hex():
     assert s == exp
 
 
-def test_add_comments():
+def test_add_rgb_comment():
     s = """
     STYLE
-        COLOR 255 0 0 # red
-        OUTLINECOLOR 0 255 0
-        COLORRANGE 0 0 0 255 255 255
+        COLOR 255 0 0
     END
     """
 
@@ -58,8 +56,77 @@ def test_add_comments():
     print(s)
     exp = """STYLE
 COLOR '#ff0000' # red
-OUTLINECOLOR '#00ff00'
-COLORRANGE '#000000' '#ffffff'
+END"""
+
+    assert s == exp
+
+
+def test_add_hex_comment():
+    s = """
+    STYLE
+        COLOR "#ff0000"
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_RGB, include_comments=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    exp = """STYLE
+COLOR 255 0 0 # red
+END"""
+
+    assert s == exp
+
+
+def test_add_rgb_colorrange_comment():
+    s = """
+    STYLE
+        COLORRANGE 0 0 0 255 255 255
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_comments=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    print(s)
+    exp = """STYLE
+COLORRANGE '#000000' '#ffffff' # black # white
+END"""
+
+    assert s == exp
+
+
+def test_add_hex_colorrange_comment():
+    s = """
+    STYLE
+        COLORRANGE '#000000' '#ffffff'
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_RGB, include_comments=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    print(s)
+    exp = """STYLE
+COLORRANGE 0 0 0 255 255 255 # black # white
+END"""
+
+    assert s == exp
+
+
+def test_add_to_existing_comments():
+    s = """
+    STYLE
+        COLOR 255 0 0 # my colour
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_comments=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    print(s)
+    exp = """STYLE
+COLOR '#ff0000' # my colour # red
 END"""
 
     assert s == exp
@@ -70,8 +137,7 @@ def run_tests():
 
 
 if __name__ == '__main__':
-    test_to_rgb()
-    test_to_hex()
-    test_add_comments()
+    test_add_rgb_colorrange_comment()
+    test_add_hex_colorrange_comment()
     # run_tests()
     print("Done!")

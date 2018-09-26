@@ -14,7 +14,7 @@ class ConversionType:
 
 
 class ColorToken(Token):
-      __slots__ = 'comment'
+    __slots__ = 'comment'
 
 
 def token_to_rgb(t):
@@ -22,11 +22,49 @@ def token_to_rgb(t):
     return (r.value, g.value, b.value)
 
 
+def rgb_to_hex_token(rgb):
+    hex = webcolors.rgb_to_hex(rgb)
+    hex_token = ColorToken("HEXCOLOR", hex)
+    add_token_comment(hex_token)
+    return hex_token
+
+
+def hex_to_rgb_token(hex):
+
+    rgb = webcolors.hex_to_rgb(hex)
+    return rgb_to_token(rgb)
+
+
+def rgb_to_token(rgb):
+
+    r, g, b = rgb
+    rgb_token = ColorToken("RGB", [r, g, b])
+    add_token_comment(rgb_token)
+    return rgb_token
+
+
+def add_token_comment(token):
+
+    if token.type == "RGB":
+        hex = webcolors.rgb_to_hex(token.value)
+    else:
+        assert token.type == "HEXCOLOR"
+        hex = token.value
+
+    try:
+        token.comment = webcolors.hex_to_name(hex)
+    except ValueError:
+        token.comment = "No color name found"
+
 orig_function = CommentsTransformer._save_attr_comments
 
 
 @v_args(tree=True)
 def attr_comments_override(self, tree):
+    """
+    Override the standard comments function to check for any ColorTokens and
+    add the human named colours to the comments array associated with the colour
+    """
     d = orig_function(self, tree)
     if "__tokens__" in d:
         for t in d["__tokens__"]:
@@ -34,7 +72,9 @@ def attr_comments_override(self, tree):
                 d["__comments__"] += ["# {}".format(t.comment)]
     return d
 
+
 CommentsTransformer.attr = attr_comments_override
+
 
 class ColoursTransformer(MapfileTransformer):
 
@@ -49,11 +89,8 @@ class ColoursTransformer(MapfileTransformer):
         if self.conversion_type == ConversionType.TO_RGB:
             return super(ColoursTransformer, self).rgb(t)
         else:
-            hex = webcolors.rgb_to_hex(token_to_rgb(t))
-            named_colour = webcolors.hex_to_name(hex)
-            converted_token = ColorToken("HEXCOLOR", hex)
-            converted_token.comment = named_colour
-            return converted_token
+            hex_token = rgb_to_hex_token(token_to_rgb(t))
+            return hex_token
 
     def colorrange(self, t):
 
@@ -62,29 +99,37 @@ class ColoursTransformer(MapfileTransformer):
         else:
             t1 = t[:3]
             t2 = t[3:]
-            hex1 = webcolors.rgb_to_hex(token_to_rgb(t1))
-            hex2 = webcolors.rgb_to_hex(token_to_rgb(t2))
-            hex_token1 = ColorToken("HEXCOLOR", hex1)
-            hex_token1.comment = webcolors.hex_to_name(hex1)
-            hex_token2 = ColorToken("HEXCOLOR", hex2)
-            hex_token2.comment = webcolors.hex_to_name(hex2)
+            hex_token1 = rgb_to_hex_token(token_to_rgb(t1))
+            hex_token2 = rgb_to_hex_token(token_to_rgb(t2))
             return [hex_token1, hex_token2]
 
     def hexcolorrange(self, t):
 
         if self.conversion_type == ConversionType.TO_RGB:
+            #return [Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
+            #        Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
+            #rgb_token1 = rgb_to_token(t[0].value)
+            #rgb_token2 = rgb_to_token(t[1].value)
+            #return [rgb_token1, rgb_token2]
+            print(t)
+            #return [t[0].value, t[1].value]
             r1, g1, b1 = t[0].value
             r2, g2, b2 = t[1].value
-            return [Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
-                    Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
+            vals =  [Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
+                       Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
+
+            token = ColorToken("COLORRANGE")
+            return [ColorToken("COLORRANGE"), Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
+                       Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
         else:
             return super(ColoursTransformer, self).hexcolorrange(t)
 
     def hexcolor(self, t):
 
         if self.conversion_type == ConversionType.TO_RGB:
-            r, g, b = webcolors.hex_to_rgb(self.clean_string(t[0]))
-            return Token("RGB", [r, g, b])
+            hex = self.clean_string(t[0])
+            rgb_token = hex_to_rgb_token(hex)
+            return rgb_token
         else:
             return super(ColoursTransformer, self).hexcolor(t)
 
