@@ -14,7 +14,7 @@ class ConversionType:
 
 
 class ColorToken(Token):
-      __slots__ = 'comment'
+    __slots__ = 'comment'
 
 
 def token_to_rgb(t):
@@ -34,7 +34,9 @@ def attr_comments_override(self, tree):
                 d["__comments__"] += ["# {}".format(t.comment)]
     return d
 
+
 CommentsTransformer.attr = attr_comments_override
+
 
 class ColoursTransformer(MapfileTransformer):
 
