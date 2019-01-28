@@ -23,6 +23,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="create_sample_map.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="image_output.py" />
     <Compile Include="mappyfile_colors.py" />
     <Compile Include="mappyfile_expressions.py" />
@@ -38,10 +41,13 @@
     <Content Include=".gitignore" />
     <Content Include=".pypirc" />
     <Content Include=".travis.yml" />
+    <Content Include="curves.csv" />
     <Content Include="example.map" />
     <Content Include="LICENSE" />
     <Content Include="MANIFEST.in" />
     <Content Include="notes.private.txt" />
+    <Content Include="rainbow.png" />
+    <Content Include="rainbow_classes.txt" />
     <Content Include="README.rst" />
     <Content Include="requirements-dev.txt" />
     <Content Include="setup.cfg" />
