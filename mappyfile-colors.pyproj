@@ -12,7 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>mappyfile-expressions</Name>
     <RootNamespace>mappyfile-expressions</RootNamespace>
-    <InterpreterId>MSBuild|mappyfile|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|mappyfile-colors|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,14 +25,10 @@
   <ItemGroup>
     <Compile Include="image_output.py" />
     <Compile Include="mappyfile_colors.py" />
-    <Compile Include="mappyfile_expressions.py" />
     <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\test_colors.py" />
-    <Compile Include="tests\test_expressions.py">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
@@ -51,20 +47,10 @@
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
-    <Interpreter Include="..\..\VirtualEnvs\mappyfile-geojson\">
-      <Id>{89e93421-467e-4824-bd7b-9c59167a2953}</Id>
+    <Interpreter Include="C:\VirtualEnvs\mappyfile-colors\">
+      <Id>mappyfile-colors</Id>
       <Version>2.7</Version>
-      <Description>mappyfile-geojson (Python 64-bit 2.7)</Description>
-      <InterpreterPath>Scripts\python.exe</InterpreterPath>
-      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
-      <LibraryPath>Lib\</LibraryPath>
-      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
-      <Architecture>Amd64</Architecture>
-    </Interpreter>
-    <Interpreter Include="..\..\VirtualEnvs\mappyfile\">
-      <Id>mappyfile</Id>
-      <Version>2.7</Version>
-      <Description>mappyfile (Python 2.7 (64-bit))</Description>
+      <Description>mappyfile-colors (Python 2.7 (64-bit))</Description>
       <InterpreterPath>Scripts\python.exe</InterpreterPath>
       <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
