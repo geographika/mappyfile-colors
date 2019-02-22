@@ -23,18 +23,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="image_output.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="mappyfile_colors.py" />
-    <Compile Include="setup.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="tests\test_colors.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include=".pypirc" />
     <Content Include=".travis.yml" />
     <Content Include="example.map" />
@@ -43,6 +32,7 @@
     <Content Include="notes.private.txt" />
     <Content Include="README.rst" />
     <Content Include="requirements-dev.txt" />
+    <Content Include="setup.cfg" />
     <Content Include="tox.ini" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +48,10 @@
       <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
       <Architecture>X64</Architecture>
     </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="mappyfile_colors.py" />
+    <Compile Include="tests\test_colors.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -78,6 +78,24 @@ END"""
     assert s == exp
 
 
+def test_add_comment_no_conversion():
+    s = """
+    STYLE
+        COLOR "#ff0000"
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.NO_CONVERSION, include_comments=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    exp = """STYLE
+COLOR "#ff0000" # red
+END"""
+
+    print(s)
+    assert s == exp
+
+
 def test_add_rgb_colorrange_comment():
     s = """
     STYLE
@@ -137,7 +155,6 @@ def run_tests():
 
 
 if __name__ == '__main__':
-    test_add_rgb_colorrange_comment()
-    test_add_hex_colorrange_comment()
+    test_add_comment_no_conversion()
     # run_tests()
     print("Done!")

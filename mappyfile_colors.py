@@ -54,7 +54,7 @@ def add_token_comment(token):
     try:
         token.comment = webcolors.hex_to_name(hex)
     except ValueError:
-        token.comment = "No color name found"
+        token.comment = "unknown"
 
 orig_function = CommentsTransformer._save_attr_comments
 

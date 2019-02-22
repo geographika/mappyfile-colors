@@ -32,7 +32,7 @@ Note installing the ``mappyfile-colors`` plugin will automatically install ``map
 Notes
 -----
 
-TODO
+https://en.wikipedia.org/wiki/X11_color_names#Color_name_chart
 
 Author
 ------
