@@ -38,4 +38,38 @@ MAP
             LABELFORMAT "%g"
         END
     END
+END    EXTENT -30 -5 180 150
+    LAYER
+        NAME "curves"
+        TYPE LINE
+        CONNECTIONTYPE OGR
+        CONNECTION "curves.csv"
+        STATUS ON
+        INCLUDE "rainbow_classes.txt"
+    END
+
+    LAYER
+        STATUS ON
+        NAME "grid"
+        TYPE LINE
+        CLASS
+            NAME "Graticule"
+            STYLE
+                COLOR 0 0 0
+                WIDTH 0.5
+                OPACITY 70
+            END
+            LABEL
+                COLOR 50 50 50
+                TYPE TRUETYPE
+                SIZE 8
+                POSITION AUTO
+                PARTIALS FALSE
+            END
+        END
+        GRID
+            MININTERVAL 40
+            LABELFORMAT "%g"
+        END
+    END
 END

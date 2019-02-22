@@ -4,7 +4,8 @@ ID,WKT
 2,"CIRCULARSTRING(0 0, 10 10, 20 0)"
 
 C:\MapServer\SDKShell.bat
-cd C:\Code\mappyfile-colors
+REM cd C:\Code\mappyfile-colors
+cd /D D:\GitHub\mappyfile-colors
 shp2img -m example.map -o rainbow.png -map_debug 5 -layer_debug curves 5
 
 """
