@@ -3,7 +3,7 @@
 #
 MAP
     SIZE 600 600
-    IMAGECOLOR 0 0 255
+    IMAGECOLOR "#99CCFF"
     EXTENT -30 -5 180 150
     LAYER
         NAME "curves"
