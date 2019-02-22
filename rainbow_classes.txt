@@ -1,0 +1,63 @@
+CLASS
+    EXPRESSION ([ID] = 1)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#9400D3"
+        OFFSET 0 -99
+    END
+END
+CLASS
+    EXPRESSION ([ID] = 2)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#4B0082"
+        OFFSET 0 -99
+    END
+END
+CLASS
+    EXPRESSION ([ID] = 3)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#0000FF"
+        OFFSET 0 -99
+    END
+END
+CLASS
+    EXPRESSION ([ID] = 4)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#00FF00"
+        OFFSET 0 -99
+    END
+END
+CLASS
+    EXPRESSION ([ID] = 5)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#FFFF00"
+        OFFSET 0 -99
+    END
+END
+CLASS
+    EXPRESSION ([ID] = 6)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#FF7F00"
+        OFFSET 0 -99
+    END
+END
+CLASS
+    EXPRESSION ([ID] = 7)
+    STYLE
+        LINECAP BUTT
+        WIDTH 12
+        COLOR "#FF0000"
+        OFFSET 0 -99
+    END
+END
