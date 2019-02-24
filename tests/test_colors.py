@@ -18,6 +18,7 @@ def test_to_rgb():
     print(json.dumps(d, indent=4))
     pp = PrettyPrinter(indent=0, newlinechar=" ", quote="'")
     s = pp.pprint(d)
+    print(s)
     exp = "STYLE COLOR 255 0 0 OUTLINECOLOR 0 255 0 COLORRANGE 0 0 0 255 255 255 END"
     assert s == exp
 
@@ -35,7 +36,7 @@ def test_to_hex():
     # print(json.dumps(d, indent=4))
     pp = PrettyPrinter(indent=0, newlinechar=" ", quote="'")
     s = pp.pprint(d)
-    # print(s)
+    print(s)
     exp = "STYLE COLOR '#ff0000' OUTLINECOLOR '#00ff00' COLORRANGE '#000000' '#ffffff' END"
     assert s == exp
 
@@ -47,7 +48,7 @@ def test_add_rgb_comment():
     END
     """
 
-    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_comments=True)
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_color_names=True)
     jsn = json.dumps(d, indent=4)
     print(jsn)
     assert d["__comments__"]["color"][0] == "# red"
@@ -68,7 +69,7 @@ def test_add_hex_comment():
     END
     """
 
-    d = mappyfile_colors.colours_transform(s, ConversionType.TO_RGB, include_comments=True)
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_RGB, include_color_names=True)
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     exp = """STYLE
@@ -85,11 +86,29 @@ def test_add_comment_no_conversion():
     END
     """
 
-    d = mappyfile_colors.colours_transform(s, ConversionType.NO_CONVERSION, include_comments=True)
+    d = mappyfile_colors.colours_transform(s, ConversionType.NO_CONVERSION, include_color_names=True)
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     exp = """STYLE
-COLOR "#ff0000" # red
+COLOR '#ff0000' # red
+END"""
+
+    print(s)
+    assert s == exp
+
+
+def test_add_comment_no_conversion_rgb():
+    s = """
+    STYLE
+        COLOR 255 0 0
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.NO_CONVERSION, include_color_names=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    exp = """STYLE
+COLOR 255 0 0 # red
 END"""
 
     print(s)
@@ -103,7 +122,7 @@ def test_add_rgb_colorrange_comment():
     END
     """
 
-    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_comments=True)
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_color_names=True)
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -114,14 +133,18 @@ END"""
     assert s == exp
 
 
+@pytest.mark.xfail
 def test_add_hex_colorrange_comment():
+    """
+    TODO Need to implement this
+    """
     s = """
     STYLE
         COLORRANGE '#000000' '#ffffff'
     END
     """
 
-    d = mappyfile_colors.colours_transform(s, ConversionType.TO_RGB, include_comments=True)
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_RGB, include_color_names=True)
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -139,7 +162,7 @@ def test_add_to_existing_comments():
     END
     """
 
-    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_comments=True)
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_color_names=True, include_comments=True)
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -150,11 +173,55 @@ END"""
     assert s == exp
 
 
+def test_add_only_color_comment():
+    """
+    This requires using mappyfile classes
+    """
+    s = """
+    STYLE
+        COLOR 255 0 0 # my colour
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_color_names=True, include_comments=False)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    print(s)
+    exp = """STYLE
+COLOR '#ff0000' # red
+END"""
+
+    assert s == exp
+
+
+def test_avoid_adding_colorname_twice():
+    """
+    This requires using mappyfile classes
+    """
+    s = """
+    STYLE
+        COLOR '#ff0000' # red
+    END
+    """
+
+    d = mappyfile_colors.colours_transform(s, ConversionType.TO_HEX, include_color_names=True, include_comments=True)
+    pp = PrettyPrinter(indent=0, quote="'")
+    s = pp.pprint(d)
+    print(s)
+
+    exp = """STYLE
+COLOR '#ff0000' # red
+END"""
+
+    assert s == exp
+
+
 def run_tests():
     pytest.main(["tests/test_colors.py", "-vv"])
 
 
 if __name__ == '__main__':
-    test_add_comment_no_conversion()
-    # run_tests()
+    # test_avoid_adding_colorname_twice()
+    test_add_comment_no_conversion_rgb()
+    run_tests()
     print("Done!")

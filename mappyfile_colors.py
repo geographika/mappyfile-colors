@@ -27,25 +27,75 @@ def token_to_rgb(t):
     return (r.value, g.value, b.value)
 
 
+def rgb_to_hex_token(rgb, include_color_names):
+
+    hex = webcolors.rgb_to_hex(rgb)
+    return hex_to_token(hex, include_color_names)
+
+
+def hex_to_rgb_token(hex, include_color_names):
+
+    rgb = webcolors.hex_to_rgb(hex)
+    return rgb_to_token(rgb, include_color_names)
+
+
+def rgb_to_token(rgb, include_color_names):
+
+    r, g, b = rgb
+    rgb_token = ColorToken("RGB", [r, g, b])
+    if include_color_names:
+        add_token_comment(rgb_token)
+    return rgb_token
+
+
+def hex_to_token(hex, include_color_names):
+
+    hex_token = ColorToken("HEXCOLOR", hex)
+    if include_color_names:
+        add_token_comment(hex_token)
+    return hex_token
+
+
+def add_token_comment(token):
+
+    if token.type == "RGB":
+        hex = webcolors.rgb_to_hex(token.value)
+    else:
+        assert token.type == "HEXCOLOR"
+        hex = token.value
+
+    try:
+        token.comment = webcolors.hex_to_name(hex)
+    except ValueError:
+        token.comment = "unnamed"
+
+    return token
+
+
 orig_function = CommentsTransformer._save_attr_comments
 
 
 @v_args(tree=True)
 def attr_comments_override(self, tree):
     """
-    Create a comment with the colour name to the token
-    and append to any existing comment
+    Override the standard comments function to check for any ColorTokens and
+    add the human named colours to the comments array associated with the colour
     """
+
     d = orig_function(self, tree)
     if "__tokens__" in d:
         for t in d["__tokens__"]:
-            if isinstance(t, ColorToken):
-                d["__comments__"] += ["# {}".format(t.comment)]
+            if isinstance(t, ColorToken) and hasattr(t, "comment"):
+                # append the comment to the comments list if not already present
+                # this could happen if the Mapfile is parsed several times
+                comment = "# {}".format(t.comment)
+                if comment not in d["__comments__"]:
+                    d["__comments__"] += [comment]
+
     return d
 
 
 CommentsTransformer.attr = attr_comments_override
-
 
 class ColoursTransformer(MapfileTransformer):
     """
@@ -53,9 +103,15 @@ class ColoursTransformer(MapfileTransformer):
     formats, and add in the colour name as a comment
     """
     def __init__(self, include_position=False, include_comments=False,
-                 conversion_type=ConversionType.TO_RGB):
+                 conversion_type=ConversionType.TO_RGB, include_color_names=False):
 
         self.conversion_type = conversion_type
+
+        if include_color_names == True:
+            include_comments = True
+
+        self.include_color_names = include_color_names
+
         super(ColoursTransformer, self).__init__(include_position, include_comments)
 
     def rgb(self, t):
@@ -63,66 +119,84 @@ class ColoursTransformer(MapfileTransformer):
         Convert rgb values to hex if appropriate, if not
         return the standard transformation
         """
-        if self.conversion_type == ConversionType.TO_RGB:
-            return super(ColoursTransformer, self).rgb(t)
+
+        rgb = token_to_rgb(t)
+
+        if self.conversion_type == ConversionType.TO_HEX:
+            hex_token = rgb_to_hex_token(rgb, self.include_color_names)
+            return hex_token
         else:
-            hex = webcolors.rgb_to_hex(token_to_rgb(t))
-            named_colour = webcolors.hex_to_name(hex)
-            converted_token = ColorToken("HEXCOLOR", hex)
-            converted_token.comment = named_colour
-            return converted_token
+            return rgb_to_token(rgb, self.include_color_names)
 
     def hexcolor(self, t):
         """
         Convert hex values to rgb if appropriate, if not
         return the standard transformation
         """
+
+        hex = self.clean_string(t[0])
+
         if self.conversion_type == ConversionType.TO_RGB:
-            r, g, b = webcolors.hex_to_rgb(self.clean_string(t[0]))
-            return Token("RGB", [r, g, b])
+            rgb_token = hex_to_rgb_token(hex, self.include_color_names)
+            return rgb_token
         else:
-            return super(ColoursTransformer, self).hexcolor(t)
+            return hex_to_token(hex, self.include_color_names)
 
     def colorrange(self, t):
         """
         Convert a rgb colorange to a hex colorrange
+
+        Input is [Token(SIGNED_INT, 0), Token(SIGNED_INT, 0), Token(SIGNED_INT, 0),
+        Token(SIGNED_INT, 255), Token(SIGNED_INT, 255), Token(SIGNED_INT, 255)]
         """
+
         if self.conversion_type == ConversionType.TO_RGB:
             return super(ColoursTransformer, self).colorrange(t)
         else:
             t1 = t[:3]
             t2 = t[3:]
-            hex1 = webcolors.rgb_to_hex(token_to_rgb(t1))
-            hex2 = webcolors.rgb_to_hex(token_to_rgb(t2))
-            hex_token1 = ColorToken("HEXCOLOR", hex1)
-            hex_token1.comment = webcolors.hex_to_name(hex1)
-            hex_token2 = ColorToken("HEXCOLOR", hex2)
-            hex_token2.comment = webcolors.hex_to_name(hex2)
+            hex_token1 = rgb_to_hex_token(token_to_rgb(t1), self.include_color_names)
+            hex_token2 = rgb_to_hex_token(token_to_rgb(t2), self.include_color_names)
             return [hex_token1, hex_token2]
 
     def hexcolorrange(self, t):
         """
         Convert a hex colorange to a rgb colorrange
         """
+
         if self.conversion_type == ConversionType.TO_RGB:
-            r1, g1, b1 = t[0].value
+            r1, g1, b1 = t[0].value # t[0].comment
             r2, g2, b2 = t[1].value
-            # TODO why can't 2 RGB values be returned here?
+
+            # TODO why can't 2 RGB values simply be returned here?
+
+            # Input is [Token(RGB, [0, 0, 0]), Token(RGB, [255, 255, 255])]
+
+            # colorrange rule expects [Token(SIGNED_INT, 0), Token(SIGNED_INT, 0), Token(SIGNED_INT, 0),
+            # Token(SIGNED_INT, 255), Token(SIGNED_INT, 255), Token(SIGNED_INT, 0)]
+
             return [Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
                     Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
         else:
             return super(ColoursTransformer, self).hexcolorrange(t)
 
 
-def colours_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_comments=False):
-    p = Parser(include_comments=include_comments)
+def colours_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_comments=False, include_color_names=False):
     """
     Parse the string with a custom colours transformer
     """
+
+    p = Parser(include_comments=include_comments)
     ast = p.parse(s)
+
+    if include_color_names:
+        include_comments = True
 
     m = MapfileToDict(include_comments=include_comments,
                       transformerClass=ColoursTransformer,
-                      conversion_type=conversion_type)
+                      conversion_type=conversion_type,
+                      include_color_names=include_color_names)
+
     d = m.transform(ast)
+
     return d
