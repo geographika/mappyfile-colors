@@ -12,6 +12,8 @@ Features include:
 + add color names to RGB color ranges as comments (*not currently possible for HEX color ranges*)
 + Python2 and 3 compatible
 
+.. image:: https://raw.githubusercontent.com/geographika/mappyfile-colors/master/rainbow.png
+
 Installation
 ------------
 
