@@ -52,6 +52,8 @@ Two additional parameters can also be passed to the ``mappyfile.loads`` function
       TO_RGB = 1
       TO_HEX = 2
 
+A sample script to convert RGB to HEX colors, and include the color names is shown below. 
+
 .. code-block:: python
 
     from mappyfile.plugins import mappyfile_colors 
@@ -68,9 +70,20 @@ Two additional parameters can also be passed to the ``mappyfile.loads`` function
     """
 
     d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColorsTransformer, conversion_type=ConversionType.TO_HEX)
-    mappyfile.dumps(d, indent=0, newlinechar=" ")
+    print(mappyfile.dumps(d))
 
-    # 'CLASS STYLE COLOR "#b8860b" # darkgoldenrod OUTLINECOLOR "#0000ff" # blue WIDTH 3 END END'
+This will output the following:
+
+.. code-block:: bat
+
+    CLASS 
+        STYLE
+            COLOR "#b8860b" # darkgoldenrod
+            OUTLINECOLOR "#0000ff" # blue 
+            WIDTH 3
+        END
+    END
+
 
 See the `test_plugin.py`_ for further examples. 
 
