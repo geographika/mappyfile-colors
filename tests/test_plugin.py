@@ -1,10 +1,8 @@
 import pytest
 import mappyfile
-import mappyfile_colors
-from mappyfile.plugins import mappyfile_colors 
-from mappyfile_colors import ColoursTransformer, ConversionType
+from mappyfile_colors import ColorsTransformer, ConversionType
 from mappyfile.parser import Parser
-from mappyfile.transformer import MapfileToDict, MapfileTransformer
+from mappyfile.transformer import MapfileToDict
 from mappyfile.pprint import PrettyPrinter
 
 
@@ -20,7 +18,8 @@ def test_simple_api():
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColoursTransformer, conversion_type=ConversionType.TO_HEX)
+    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColorsTransformer,
+                        conversion_type=ConversionType.TO_HEX)
     output = mappyfile.dumps(d, indent=0, newlinechar=" ")
     assert output == 'CLASS STYLE COLOR "#b8860b" # darkgoldenrod OUTLINECOLOR "#0000ff" # blue WIDTH 3 END END'
 
@@ -37,7 +36,8 @@ def test_simple_api_rgb():
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColoursTransformer, conversion_type=ConversionType.TO_RGB)
+    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColorsTransformer,
+                        conversion_type=ConversionType.TO_RGB)
     output = mappyfile.dumps(d, indent=0, newlinechar=" ")
     print(output)
     assert output == 'CLASS STYLE COLOR 184 134 11 # darkgoldenrod OUTLINECOLOR 0 0 255 # blue WIDTH 3 END END'
@@ -59,8 +59,8 @@ def test_api():
     ast = p.parse(s)
 
     m = MapfileToDict(include_comments=True,
-                      include_color_names=True, # if this is True then include_comments must also be true
-                      transformerClass=ColoursTransformer,
+                      include_color_names=True,  # if this is True then include_comments must also be true
+                      transformerClass=ColorsTransformer,
                       conversion_type=ConversionType.TO_HEX)
 
     d = m.transform(ast)

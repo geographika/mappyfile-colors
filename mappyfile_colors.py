@@ -16,7 +16,7 @@ class ConversionType:
 class ColorToken(Token):
     """
     A token subclass with an additional comment attribute
-    to store the colour name so it can be accessed
+    to store the color name so it can be accessed
     by the transformer
     """
     __slots__ = 'comment'
@@ -79,7 +79,7 @@ orig_function = CommentsTransformer._save_attr_comments
 def attr_comments_override(self, tree):
     """
     Override the standard comments function to check for any ColorTokens and
-    add the human named colours to the comments array associated with the colour
+    add the human named colors to the comments array associated with the color
     """
 
     d = orig_function(self, tree)
@@ -97,22 +97,23 @@ def attr_comments_override(self, tree):
 
 CommentsTransformer.attr = attr_comments_override
 
-class ColoursTransformer(MapfileTransformer):
+
+class ColorsTransformer(MapfileTransformer):
     """
-    A custom transformer that can convert from RGB to HEX colour
-    formats, and add in the colour name as a comment
+    A custom transformer that can convert from RGB to HEX color
+    formats, and add in the color name as a comment
     """
     def __init__(self, include_position=False, include_comments=False,
                  conversion_type=ConversionType.TO_RGB, include_color_names=False):
 
         self.conversion_type = conversion_type
 
-        if include_color_names == True:
+        if include_color_names is True:
             include_comments = True
 
         self.include_color_names = include_color_names
 
-        super(ColoursTransformer, self).__init__(include_position, include_comments)
+        super(ColorsTransformer, self).__init__(include_position, include_comments)
 
     def rgb(self, t):
         """
@@ -151,7 +152,7 @@ class ColoursTransformer(MapfileTransformer):
         """
 
         if self.conversion_type == ConversionType.TO_RGB:
-            return super(ColoursTransformer, self).colorrange(t)
+            return super(ColorsTransformer, self).colorrange(t)
         else:
             t1 = t[:3]
             t2 = t[3:]
@@ -165,7 +166,7 @@ class ColoursTransformer(MapfileTransformer):
         """
 
         if self.conversion_type == ConversionType.TO_RGB:
-            r1, g1, b1 = t[0].value # t[0].comment
+            r1, g1, b1 = t[0].value  # t[0].comment
             r2, g2, b2 = t[1].value
 
             # TODO why can't 2 RGB values simply be returned here?
@@ -178,12 +179,13 @@ class ColoursTransformer(MapfileTransformer):
             return [Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
                     Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
         else:
-            return super(ColoursTransformer, self).hexcolorrange(t)
+            return super(ColorsTransformer, self).hexcolorrange(t)
 
 
-def colours_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_comments=False, include_color_names=False):
+def colors_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_comments=False,
+                     include_color_names=False):
     """
-    Parse the string with a custom colours transformer
+    Parse the string with a custom colors transformer
     """
 
     p = Parser(include_comments=include_comments)
@@ -193,7 +195,7 @@ def colours_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_c
         include_comments = True
 
     m = MapfileToDict(include_comments=include_comments,
-                      transformerClass=ColoursTransformer,
+                      transformerClass=ColorsTransformer,
                       conversion_type=conversion_type,
                       include_color_names=include_color_names)
 

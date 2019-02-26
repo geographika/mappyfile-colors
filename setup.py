@@ -13,7 +13,7 @@ def readme():
 
 setup(name='mappyfile-colors',
       version=__version__,
-      description='A mappyfile plugin to convert between RGB and Hex colours, and to add human readable names',
+      description='A mappyfile plugin to convert between RGB and Hex colors, and to add human readable names',
       long_description=readme(),
       classifiers=[
           # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -32,6 +32,6 @@ setup(name='mappyfile-colors',
       author_email='sethg@geographika.co.uk',
       license='MIT',
       py_modules=['mappyfile_colors'],
-      install_requires=['mappyfile>=0.7.4', 'webcolors'],
+      install_requires=['mappyfile>=0.8.0', 'webcolors'],
       entry_points={'mappyfile.plugins': 'mappyfile_colors = mappyfile_colors'},
       zip_safe=False)
