@@ -2,7 +2,7 @@
 # shp2img -m example.map -o rainbow.png -map_debug 5 -layer_debug curves 5
 #
 MAP
-    SIZE 600 600
+    SIZE 400 400
     IMAGECOLOR "#99CCFF"
     EXTENT -30 -5 180 150
     LAYER

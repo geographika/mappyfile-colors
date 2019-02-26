@@ -4,7 +4,7 @@ from lark.visitors import v_args
 import webcolors
 from lark.lexer import Token
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 class ConversionType:
