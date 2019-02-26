@@ -3,9 +3,9 @@ ID,WKT
 1,"CIRCULARSTRING(0 0, 10 10, 20 0)"
 2,"CIRCULARSTRING(0 0, 10 10, 20 0)"
 
-C:\MapServer\SDKShell.bat
-REM cd C:\Code\mappyfile-colors
-cd /D D:\GitHub\mappyfile-colors
+C:/MapServer/SDKShell.bat
+REM cd C:/Code/mappyfile-colors
+cd /D D:/GitHub/mappyfile-colors
 shp2img -m example.map -o rainbow.png -map_debug 5 -layer_debug curves 5
 
 """
@@ -29,7 +29,7 @@ with open("curves.csv", "w") as f:
                                                              offset_x, offset_y, end_x))
         print(row)
         writer.writerow(row)
- 
+
 template = """
 CLASS
     EXPRESSION ([ID] = 1)
@@ -42,9 +42,9 @@ CLASS
 END
 """
 
-# colours of the rainbow
+# colors of the rainbow
 
-colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', 
+colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00',
           '#0000FF', '#4B0082', '#9400D3']
 
 colors = list(reversed(colors))
@@ -61,4 +61,3 @@ for i in range(1, 8):
 
 mappyfile.save(rainbow_classes, "rainbow_classes.txt")
 print("Done!")
-
