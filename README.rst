@@ -14,6 +14,8 @@ Features include:
 
 .. image:: https://raw.githubusercontent.com/geographika/mappyfile-colors/master/rainbow.png
 
+See `example.map`_ and `rainbow_classes.txt`_ for the Mapfile to generate the above image. 
+
 Installation
 ------------
 
@@ -39,7 +41,7 @@ Online Demo
 Usage
 -----
 
-To use the colors plugin, import it to a script, and then pass in a custom ``ColorsTransformer``. 
+To use the colors plugin, import, and then pass in a custom ``ColorsTransformer``. 
 Two additional parameters can also be passed to the ``mappyfile.loads`` function:
 
 + ``include_color_names`` - set to True to add color names as comments (default is False)
@@ -56,6 +58,7 @@ A sample script to convert RGB to HEX colors, and include the color names is sho
 
 .. code-block:: python
 
+    import mappyfile
     from mappyfile.plugins import mappyfile_colors 
     from mappyfile_colors import ColorsTransformer, ConversionType
 
@@ -69,7 +72,7 @@ A sample script to convert RGB to HEX colors, and include the color names is sho
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColorsTransformer, conversion_type=ConversionType.TO_HEX)
+    d = mappyfile.loads(s, include_color_names=True, transformerClass=ColorsTransformer, conversion_type=ConversionType.TO_HEX)
     print(mappyfile.dumps(d))
 
 This will output the following:
@@ -100,3 +103,5 @@ Author
 
 
 .. _test_plugin.py: tests/test_plugin.py
+.. _example.map: example.map
+.. _rainbow_classes.txt: rainbow_classes.txt
