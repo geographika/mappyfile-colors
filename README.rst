@@ -14,7 +14,9 @@ Features include:
 
 .. image:: https://raw.githubusercontent.com/geographika/mappyfile-colors/master/rainbow.png
 
-See `example.map`_ and `rainbow_classes.txt`_ for the Mapfile to generate the above image. 
+See `example.map <https://github.com/geographika/mappyfile-colors/blob/master/example.map>`_ 
+and `rainbow_classes.txt <https://github.com/geographika/mappyfile-colors/blob/master/rainbow_classes.txt>`_ 
+for the Mapfile to generate the above image. 
 
 Installation
 ------------
