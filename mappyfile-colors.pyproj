@@ -57,6 +57,7 @@
     <Compile Include="image_output.py" />
     <Compile Include="mappyfile_colors.py" />
     <Compile Include="setup.py" />
+    <Compile Include="tests\test_color_factory.py" />
     <Compile Include="tests\test_example.py">
       <SubType>Code</SubType>
     </Compile>

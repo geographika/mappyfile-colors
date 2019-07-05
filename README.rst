@@ -90,6 +90,19 @@ This will output the following:
 
 See the `test_plugin.py`_ for further examples. 
 
+Color Factory
++++++++++++++
+
+The plugin also includes a ``ColorFactory`` class to return unique colors from color palettes. This can be useful for
+generating MapServer classes based on unique values. Basic usage is shown below:
+
+.. code-block:: python
+
+    color_factory = mappyfile_colors.ColorFactory()
+    print(color_factory.palette_names)
+    clrs = color_factory.get_colors(palette_name="maximum_contrast")  # returns an iterator
+    print(next(clrs))
+
 Author
 ------
 

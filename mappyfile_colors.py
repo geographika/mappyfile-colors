@@ -1,10 +1,11 @@
+import itertools
 from mappyfile.transformer import MapfileTransformer, CommentsTransformer, MapfileToDict
 from mappyfile.parser import Parser
 from lark.visitors import v_args
 import webcolors
 from lark.lexer import Token
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 
 class ConversionType:
@@ -56,6 +57,15 @@ def hex_to_token(hex, include_color_names):
     return hex_token
 
 
+def hex_to_name(hex):
+
+    try:
+        name = webcolors.hex_to_name(hex)
+    except ValueError:
+        name = "unnamed"
+    return name
+
+
 def add_token_comment(token):
 
     if token.type == "RGB":
@@ -64,11 +74,7 @@ def add_token_comment(token):
         assert token.type == "HEXCOLOR"
         hex = token.value
 
-    try:
-        token.comment = webcolors.hex_to_name(hex)
-    except ValueError:
-        token.comment = "unnamed"
-
+    token.comment = hex_to_name(hex)
     return token
 
 
@@ -202,3 +208,37 @@ def colors_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_co
     d = m.transform(ast)
 
     return d
+
+
+class ColorFactory:
+
+    palettes = {
+        # http://artshacker.com/wp-content/uploads/2014/12/Kellys-22-colour-chart.jpg
+        "maximum_contrast": ['#e6194b', '#3cb44b', '#ffe119', '#4363d8',
+                             '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+                             '#bcf60c', '#fabebe', '#008080', '#e6beff',
+                             '#9a6324', '#fffac8', '#800000', '#aaffc3',
+                             '#808000', '#ffd8b1', '#000075', '#808080',
+                             '#ffffff', '#000000']
+    }
+
+    def get_colors(self, palette_name=None, repeat=False):
+
+        if palette_name is None:
+            palette_name = "maximum_contrast"
+
+        palette_name = palette_name.lower()
+        colours = self.palettes[palette_name]
+
+        if repeat:
+            colours = itertools.cycle(colours)
+
+        for clr in colours:
+            yield clr
+
+    @property
+    def palette_names(self):
+        """
+        A list of all palette names available in the factory
+        """
+        return sorted(self.palettes.keys())

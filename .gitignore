@@ -3,3 +3,11 @@
 /.vs/mappyfile-expressions/v15/.suo
 /.pypirc
 /notes.private.txt
+/tests/__pycache__/*.pyc
+/dist
+/mappyfile_colors.egg-info
+/*.pyc
+/__pycache__
+/.vs/mappyfile-colors/v15
+/*.sln
+/build/lib
