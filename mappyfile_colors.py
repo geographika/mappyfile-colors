@@ -5,7 +5,7 @@ from lark.visitors import v_args
 import webcolors
 from lark.lexer import Token
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 
 class ConversionType:
@@ -141,7 +141,7 @@ class ColorsTransformer(MapfileTransformer):
         return the standard transformation
         """
 
-        hex = self.clean_string(t[0])
+        hex = self.clean_string(t[0].value)
 
         if self.conversion_type == ConversionType.TO_RGB:
             rgb_token = hex_to_rgb_token(hex, self.include_color_names)
@@ -232,6 +232,24 @@ class ColorFactory:
 
         if repeat:
             colours = itertools.cycle(colours)
+
+        for clr in colours:
+            yield clr
+
+    def get_gradient_colors(self, rgb1, rgb2, steps):
+
+        colours = []
+
+        r1, g1, b1 = rgb1
+        r2, g2, b2 = rgb2
+
+        rdelta, gdelta, bdelta = (r2-r1)/steps, (g2-g1)/steps, (b2-b1)/steps
+
+        for step in range(steps):
+            r1 += rdelta
+            g1 += gdelta
+            b1 += bdelta
+            colours.append((r1, g1, b1))
 
         for clr in colours:
             yield clr

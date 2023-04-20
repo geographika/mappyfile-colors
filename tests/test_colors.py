@@ -222,6 +222,6 @@ def run_tests():
 
 if __name__ == '__main__':
     # test_avoid_adding_colorname_twice()
-    test_add_comment_no_conversion_rgb()
-    run_tests()
+    test_to_rgb()
+    # run_tests()
     print("Done!")

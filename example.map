@@ -38,7 +38,7 @@ MAP
             LABELFORMAT "%g"
         END
     END
-END    EXTENT -30 -5 180 150
+
     LAYER
         NAME "curves"
         TYPE LINE

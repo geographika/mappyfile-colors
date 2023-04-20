@@ -12,7 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>mappyfile-expressions</Name>
     <RootNamespace>mappyfile-expressions</RootNamespace>
-    <InterpreterId>MSBuild|mappyfile-colors|$(MSBuildProjectFullPath)</InterpreterId>
+    <InterpreterId>MSBuild|mappyfile-colors3|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +42,15 @@
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
+    <Interpreter Include="C:\VirtualEnvs\mappyfile-colors3\">
+      <Id>mappyfile-colors3</Id>
+      <Version>3.10</Version>
+      <Description>mappyfile-colors3 (Python 3.10 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
     <Interpreter Include="C:\VirtualEnvs\mappyfile-colors\">
       <Id>mappyfile-colors</Id>
       <Version>2.7</Version>
