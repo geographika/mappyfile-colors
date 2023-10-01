@@ -18,7 +18,7 @@ def test_simple_api():
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColorsTransformer,
+    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformer_class=ColorsTransformer,
                         conversion_type=ConversionType.TO_HEX)
     output = mappyfile.dumps(d, indent=0, newlinechar=" ")
     assert output == 'CLASS STYLE COLOR "#b8860b" # darkgoldenrod OUTLINECOLOR "#0000ff" # blue WIDTH 3 END END'
@@ -36,7 +36,7 @@ def test_simple_api_rgb():
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformerClass=ColorsTransformer,
+    d = mappyfile.loads(s, include_color_names=True, include_comments=True, transformer_class=ColorsTransformer,
                         conversion_type=ConversionType.TO_RGB)
     output = mappyfile.dumps(d, indent=0, newlinechar=" ")
     print(output)
@@ -60,7 +60,7 @@ def test_api():
 
     m = MapfileToDict(include_comments=True,
                       include_color_names=True,  # if this is True then include_comments must also be true
-                      transformerClass=ColorsTransformer,
+                      transformer_class=ColorsTransformer,
                       conversion_type=ConversionType.TO_HEX)
 
     d = m.transform(ast)

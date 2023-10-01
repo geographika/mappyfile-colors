@@ -72,7 +72,7 @@ A sample script to convert RGB to HEX colors, and include the color names is sho
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, transformerClass=ColorsTransformer, conversion_type=ConversionType.TO_HEX)
+    d = mappyfile.loads(s, include_color_names=True, transformer_class=ColorsTransformer, conversion_type=ConversionType.TO_HEX)
     print(mappyfile.dumps(d))
 
 This will output the following:

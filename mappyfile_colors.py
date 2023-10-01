@@ -201,7 +201,7 @@ def colors_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_co
         include_comments = True
 
     m = MapfileToDict(include_comments=include_comments,
-                      transformerClass=ColorsTransformer,
+                      transformer_class=ColorsTransformer,
                       conversion_type=conversion_type,
                       include_color_names=include_color_names)
 

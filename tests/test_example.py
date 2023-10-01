@@ -19,7 +19,7 @@ def test_example():
     END
     """
 
-    d = mappyfile.loads(s, include_color_names=True, transformerClass=ColorsTransformer,
+    d = mappyfile.loads(s, include_color_names=True, transformer_class=ColorsTransformer,
                         conversion_type=ConversionType.TO_HEX)
     print(mappyfile.dumps(d))
 
