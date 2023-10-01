@@ -3,7 +3,6 @@ import pytest
 
 
 def test_get_colors():
-
     color_factory = mappyfile_colors.ColorFactory()
     palette_name = "maximum_contrast"
     clrs = color_factory.get_colors(palette_name)
@@ -22,7 +21,6 @@ def test_get_colors():
 
 
 def test_get_infinite_colors():
-
     color_factory = mappyfile_colors.ColorFactory()
     palette_name = "maximum_contrast"
     clrs = color_factory.get_colors(palette_name, repeat=True)
@@ -37,7 +35,6 @@ def test_get_infinite_colors():
 
 
 def test_get_palette_names():
-
     color_factory = mappyfile_colors.ColorFactory()
     palette_names = color_factory.palette_names
     assert len(palette_names) > 0
@@ -47,7 +44,7 @@ def run_tests():
     pytest.main(["tests/test_color_factory.py", "-vv"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_get_colors()
     test_get_infinite_colors()
     test_get_palette_names()

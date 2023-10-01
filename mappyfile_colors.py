@@ -20,7 +20,8 @@ class ColorToken(Token):
     to store the color name so it can be accessed
     by the transformer
     """
-    __slots__ = 'comment'
+
+    __slots__ = "comment"
 
 
 def token_to_rgb(t):
@@ -29,19 +30,16 @@ def token_to_rgb(t):
 
 
 def rgb_to_hex_token(rgb, include_color_names):
-
     hex = webcolors.rgb_to_hex(rgb)
     return hex_to_token(hex, include_color_names)
 
 
 def hex_to_rgb_token(hex, include_color_names):
-
     rgb = webcolors.hex_to_rgb(hex)
     return rgb_to_token(rgb, include_color_names)
 
 
 def rgb_to_token(rgb, include_color_names):
-
     r, g, b = rgb
     rgb_token = ColorToken("RGB", [r, g, b])
     if include_color_names:
@@ -50,7 +48,6 @@ def rgb_to_token(rgb, include_color_names):
 
 
 def hex_to_token(hex, include_color_names):
-
     hex_token = ColorToken("HEXCOLOR", hex)
     if include_color_names:
         add_token_comment(hex_token)
@@ -58,7 +55,6 @@ def hex_to_token(hex, include_color_names):
 
 
 def hex_to_name(hex):
-
     try:
         name = webcolors.hex_to_name(hex)
     except ValueError:
@@ -67,7 +63,6 @@ def hex_to_name(hex):
 
 
 def add_token_comment(token):
-
     if token.type == "RGB":
         hex = webcolors.rgb_to_hex(token.value)
     else:
@@ -109,9 +104,14 @@ class ColorsTransformer(MapfileTransformer):
     A custom transformer that can convert from RGB to HEX color
     formats, and add in the color name as a comment
     """
-    def __init__(self, include_position=False, include_comments=False,
-                 conversion_type=ConversionType.TO_RGB, include_color_names=False):
 
+    def __init__(
+        self,
+        include_position=False,
+        include_comments=False,
+        conversion_type=ConversionType.TO_RGB,
+        include_color_names=False,
+    ):
         self.conversion_type = conversion_type
 
         if include_color_names is True:
@@ -182,14 +182,24 @@ class ColorsTransformer(MapfileTransformer):
             # colorrange rule expects [Token(SIGNED_INT, 0), Token(SIGNED_INT, 0), Token(SIGNED_INT, 0),
             # Token(SIGNED_INT, 255), Token(SIGNED_INT, 255), Token(SIGNED_INT, 0)]
 
-            return [Token("SIGNED_INT", r1), Token("SIGNED_INT", g1), Token("SIGNED_INT", b1),
-                    Token("SIGNED_INT", r2), Token("SIGNED_INT", g2), Token("SIGNED_INT", b2)]
+            return [
+                Token("SIGNED_INT", r1),
+                Token("SIGNED_INT", g1),
+                Token("SIGNED_INT", b1),
+                Token("SIGNED_INT", r2),
+                Token("SIGNED_INT", g2),
+                Token("SIGNED_INT", b2),
+            ]
         else:
             return super(ColorsTransformer, self).hexcolorrange(t)
 
 
-def colors_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_comments=False,
-                     include_color_names=False):
+def colors_transform(
+    s,
+    conversion_type=ConversionType.NO_CONVERSION,
+    include_comments=False,
+    include_color_names=False,
+):
     """
     Parse the string with a custom colors transformer
     """
@@ -200,10 +210,12 @@ def colors_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_co
     if include_color_names:
         include_comments = True
 
-    m = MapfileToDict(include_comments=include_comments,
-                      transformer_class=ColorsTransformer,
-                      conversion_type=conversion_type,
-                      include_color_names=include_color_names)
+    m = MapfileToDict(
+        include_comments=include_comments,
+        transformer_class=ColorsTransformer,
+        conversion_type=conversion_type,
+        include_color_names=include_color_names,
+    )
 
     d = m.transform(ast)
 
@@ -211,19 +223,35 @@ def colors_transform(s, conversion_type=ConversionType.NO_CONVERSION, include_co
 
 
 class ColorFactory:
-
     palettes = {
         # http://artshacker.com/wp-content/uploads/2014/12/Kellys-22-colour-chart.jpg
-        "maximum_contrast": ['#e6194b', '#3cb44b', '#ffe119', '#4363d8',
-                             '#f58231', '#911eb4', '#46f0f0', '#f032e6',
-                             '#bcf60c', '#fabebe', '#008080', '#e6beff',
-                             '#9a6324', '#fffac8', '#800000', '#aaffc3',
-                             '#808000', '#ffd8b1', '#000075', '#808080',
-                             '#ffffff', '#000000']
+        "maximum_contrast": [
+            "#e6194b",
+            "#3cb44b",
+            "#ffe119",
+            "#4363d8",
+            "#f58231",
+            "#911eb4",
+            "#46f0f0",
+            "#f032e6",
+            "#bcf60c",
+            "#fabebe",
+            "#008080",
+            "#e6beff",
+            "#9a6324",
+            "#fffac8",
+            "#800000",
+            "#aaffc3",
+            "#808000",
+            "#ffd8b1",
+            "#000075",
+            "#808080",
+            "#ffffff",
+            "#000000",
+        ]
     }
 
     def get_colors(self, palette_name=None, repeat=False):
-
         if palette_name is None:
             palette_name = "maximum_contrast"
 
@@ -237,13 +265,12 @@ class ColorFactory:
             yield clr
 
     def get_gradient_colors(self, rgb1, rgb2, steps):
-
         colours = []
 
         r1, g1, b1 = rgb1
         r2, g2, b2 = rgb2
 
-        rdelta, gdelta, bdelta = (r2-r1)/steps, (g2-g1)/steps, (b2-b1)/steps
+        rdelta, gdelta, bdelta = (r2 - r1) / steps, (g2 - g1) / steps, (b2 - b1) / steps
 
         for step in range(steps):
             r1 += rdelta

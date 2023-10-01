@@ -48,7 +48,9 @@ def test_add_rgb_comment():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_HEX, include_color_names=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_HEX, include_color_names=True
+    )
     jsn = json.dumps(d, indent=4)
     print(jsn)
     assert d["__comments__"]["color"][0] == "# red"
@@ -69,7 +71,9 @@ def test_add_hex_comment():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_RGB, include_color_names=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_RGB, include_color_names=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     exp = """STYLE
@@ -86,7 +90,9 @@ def test_add_comment_no_conversion():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.NO_CONVERSION, include_color_names=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.NO_CONVERSION, include_color_names=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     exp = """STYLE
@@ -104,7 +110,9 @@ def test_add_comment_no_conversion_rgb():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.NO_CONVERSION, include_color_names=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.NO_CONVERSION, include_color_names=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     exp = """STYLE
@@ -122,7 +130,9 @@ def test_add_rgb_colorrange_comment():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_HEX, include_color_names=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_HEX, include_color_names=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -144,7 +154,9 @@ def test_add_hex_colorrange_comment():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_RGB, include_color_names=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_RGB, include_color_names=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -162,7 +174,9 @@ def test_add_to_existing_comments():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_HEX, include_color_names=True, include_comments=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_HEX, include_color_names=True, include_comments=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -183,7 +197,9 @@ def test_add_only_color_comment():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_HEX, include_color_names=True, include_comments=False)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_HEX, include_color_names=True, include_comments=False
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -204,7 +220,9 @@ def test_avoid_adding_colorname_twice():
     END
     """
 
-    d = mappyfile_colors.colors_transform(s, ConversionType.TO_HEX, include_color_names=True, include_comments=True)
+    d = mappyfile_colors.colors_transform(
+        s, ConversionType.TO_HEX, include_color_names=True, include_comments=True
+    )
     pp = PrettyPrinter(indent=0, quote="'")
     s = pp.pprint(d)
     print(s)
@@ -220,7 +238,7 @@ def run_tests():
     pytest.main(["tests/test_colors.py", "-vv"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # test_avoid_adding_colorname_twice()
     test_to_rgb()
     # run_tests()

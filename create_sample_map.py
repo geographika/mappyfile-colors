@@ -16,7 +16,7 @@ import copy
 
 
 with open("curves.csv", "w") as f:
-    writer = csv.writer(f, dialect='excel')
+    writer = csv.writer(f, dialect="excel")
     writer.writerow(("ID", "WKT"))
     multiplier = 3
     for i in range(1, 8):
@@ -25,8 +25,12 @@ with open("curves.csv", "w") as f:
         end_x = 150 + i * multiplier
         offset_x = 75 + (i * multiplier)
         offset_y = 100 + (i * multiplier)
-        row = (i, "CIRCULARSTRING({} 0, {} {}, {} 0)".format(start_x,
-                                                             offset_x, offset_y, end_x))
+        row = (
+            i,
+            "CIRCULARSTRING({} 0, {} {}, {} 0)".format(
+                start_x, offset_x, offset_y, end_x
+            ),
+        )
         print(row)
         writer.writerow(row)
 
@@ -44,8 +48,7 @@ END
 
 # colors of the rainbow
 
-colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00',
-          '#0000FF', '#4B0082', '#9400D3']
+colors = ["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#9400D3"]
 
 colors = list(reversed(colors))
 tmpl_cls = mappyfile.loads(template)
@@ -55,7 +58,7 @@ for i in range(1, 8):
     new_cls = copy.deepcopy(tmpl_cls)
     style = new_cls["styles"][0]
     new_cls["expression"] = "([ID] = {})".format(i)
-    style["color"] = colors[i-1]
+    style["color"] = colors[i - 1]
     # style["offset"][0] = i * style["width"] * -1
     rainbow_classes.append(new_cls)
 
