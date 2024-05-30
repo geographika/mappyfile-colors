@@ -32,7 +32,7 @@ setup(
     author_email="sethg@geographika.co.uk",
     license="MIT",
     py_modules=["mappyfile_colors"],
-    install_requires=["mappyfile>=1.0.0", "webcolors"],
+    install_requires=["mappyfile>=1.0.2", "webcolors"],
     entry_points={"mappyfile.plugins": "mappyfile_colors = mappyfile_colors"},
     zip_safe=False,
 )
