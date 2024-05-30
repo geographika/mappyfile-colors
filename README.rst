@@ -31,9 +31,9 @@ dependencies:
 Online Demo
 -----------
 
-+ Go to the online mappyfile demo at http://mappyfile.geographika.net/
-+ Select the "Rainbow colors" map
-+ Open "Settings", the *mappyfile-colors Plugin Settings* section allows conversion to RGB and HEX, and to include
++ Go to the MapServer Studio at https://app.mapserverstudio.net/
++ Open the "Rainbow colors" map (File > Open > Rainbow)
++ Open "Settings", the *Color Formatting* section allows conversion to RGB and HEX, and to include
   color names as comments in the Mapfile output
 + Click the Format button
 
