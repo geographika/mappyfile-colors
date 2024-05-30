@@ -10,7 +10,6 @@ Features include:
 + harmonise all colors in a Mapfile to either RGB or hex values
 + add `human readable color <https://en.wikipedia.org/wiki/X11_color_names#Color_name_chart>`_ names as comments
 + add color names to RGB color ranges as comments (*not currently possible for HEX color ranges*)
-+ Python2 and 3 compatible
 
 .. image:: https://raw.githubusercontent.com/geographika/mappyfile-colors/master/rainbow.png
 
