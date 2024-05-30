@@ -23,22 +23,26 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include=".flake8" />
+    <Content Include=".github\dependabot.yml" />
+    <Content Include=".github\workflows\main.yml" />
     <Content Include=".gitignore" />
     <Content Include=".pypirc" />
-    <Content Include=".travis.yml" />
     <Content Include="curves.csv" />
     <Content Include="example.map" />
     <Content Include="LICENSE" />
     <Content Include="MANIFEST.in" />
     <Content Include="notes.private.txt" />
+    <Content Include="pyproject.toml" />
     <Content Include="rainbow.png" />
     <Content Include="rainbow_classes.txt" />
     <Content Include="README.rst" />
     <Content Include="requirements-dev.txt" />
     <Content Include="setup.cfg" />
-    <Content Include="tox.ini" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".github\" />
+    <Folder Include=".github\workflows\" />
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>

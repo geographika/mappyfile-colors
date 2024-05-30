@@ -92,6 +92,6 @@ def run_tests():
 
 
 if __name__ == "__main__":
-    test_api()
-    # run_tests()
+    # test_api()
+    run_tests()
     print("Done!")
